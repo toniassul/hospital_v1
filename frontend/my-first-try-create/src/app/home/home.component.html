@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">{{stats.totalDoctors}}</div>
+      <div class="stat-label">Total Doctors</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{stats.activeDoctors}}</div>
+      <div class="stat-label">Active Doctors</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{stats.todayAppointments}}</div>
+      <div class="stat-label">Today's Appointments</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">{{stats.pendingAppointments}}</div>
+      <div class="stat-label">Pending Appointments</div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <a routerLink="/appointment/new" class="action-button">
+        New Appointment
+      </a>
+      <a routerLink="/doctors" class="action-button">
+        Manage Doctors
+      </a>
+      <a routerLink="/patients" class="action-button">
+        Manage Patients
+      </a>
+      <a routerLink="/specialties" class="action-button">
+        Manage Specialties
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Appointments -->
+  <div class="recent-appointments">
+    <h2>Recent Appointments</h2>
+    <div class="appointments-list">
+      <div class="appointment-item" *ngFor="let appointment of recentAppointments">
+        <div class="appointment-date">
+          {{appointment.date | date:'short'}}
+        </div>
+        <div class="appointment-details">
+          <span class="patient-name">{{appointment.patientName}}</span>
+          <span class="doctor-name">Dr. {{appointment.doctorName}}</span>
+        </div>
+        <div class="appointment-status" [ngClass]="appointment.status.toLowerCase()">
+          {{appointment.status}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

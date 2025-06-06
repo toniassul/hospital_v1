@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Médicos</h2>
+    <div class="filter-controls">
+      <div class="specialty-filter">
+        <label>Especialidad:</label>
+        <select [(ngModel)]="selectedSpecialty" (change)="onSpecialtyChange()">
+          <option [ngValue]="null">Todas las especialidades</option>
+          <option *ngFor="let specialty of specialties" [ngValue]="specialty.id">
+            {{specialty.nombre}}
+          </option>
+        </select>
+      </div>
+      <label class="toggle-label">
+        <input type="checkbox" [(ngModel)]="showOnlyActive" (change)="toggleActiveFilter()">
+        Mostrar solo médicos activos
+      </label>
+    </div>
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Especialidad</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let doctor of doctors">
+        <td>{{doctor.nombre}}</td>
+        <td>{{doctor.apellido}}</td>
+        <td>{{getSpecialtyName(doctor.especialidad_id)}}</td>
+        <td>{{doctor.email}}</td>
+        <td>{{doctor.telefono}}</td>
+        <td>
+          <span class="status-badge" [class.active]="doctor.activo">
+            {{doctor.activo ? 'Activo' : 'Inactivo'}}
+          </span>
+        </td>
+        <td class="actions">
+          <button class="btn-edit" (click)="editDoctor(doctor)">Editar</button>
+          <button class="btn-delete" (click)="deleteDoctor(doctor.id!)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="doctors.length === 0">
+        <td colspan="7" class="no-data">No hay médicos para mostrar</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedDoctor" class="form-container">
+    <h3>{{isEditing ? 'Editar' : 'Nuevo'}} Médico</h3>
+    <form (submit)="saveDoctor()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input [(ngModel)]="selectedDoctor.nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido:</label>
+          <input [(ngModel)]="selectedDoctor.apellido" name="apellido" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Especialidad:</label>
+          <select [(ngModel)]="selectedDoctor.especialidad_id" name="especialidad_id" required>
+            <option *ngFor="let specialty of specialties" [value]="specialty.id">
+              {{specialty.nombre}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input [(ngModel)]="selectedDoctor.email" name="email" type="email" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input [(ngModel)]="selectedDoctor.telefono" name="telefono" required>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input [(ngModel)]="selectedDoctor.activo" name="activo" type="checkbox">
+            Médico Activo
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Guardar</button>
+        <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <button *ngIf="!selectedDoctor" class="btn-new" (click)="startNewDoctor()">
+    Nuevo Médico
+  </button>
+</div>

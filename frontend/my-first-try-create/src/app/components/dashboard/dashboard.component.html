@@ -1,0 +1,84 @@
+<div class="dashboard-container animate-fade-in">
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-content">
+      <h1>¡Bienvenido al Sistema de Gestión Hospitalaria!</h1>
+      <p>Gestione sus citas y acceda a servicios médicos de manera fácil y rápida</p>
+    </div>
+    <div class="welcome-decoration">
+      <svg xmlns="http://www.w3.org/2000/svg" class="decoration-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Quick Actions Grid -->
+  <div class="quick-actions-grid">
+    <!-- New Appointment Card -->
+    <div class="action-card animate-slide-in" style="animation-delay: 0.1s">
+      <div class="card-icon primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      </div>
+      <h3>Nueva Cita</h3>
+      <p>Agende una nueva cita médica con nuestros especialistas</p>
+      <button routerLink="/appointment/new" class="btn btn-primary">
+        Agendar Cita
+      </button>
+    </div>
+
+    <!-- My Appointments Card -->
+    <div class="action-card animate-slide-in" style="animation-delay: 0.2s">
+      <div class="card-icon success">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+      </div>
+      <h3>Mis Citas</h3>
+      <p>Vea su historial y próximas citas programadas</p>
+      <button routerLink="/appointments" class="btn btn-secondary">
+        Ver Citas
+      </button>
+    </div>
+
+    <!-- Specialties Card -->
+    <div class="action-card animate-slide-in" style="animation-delay: 0.3s">
+      <div class="card-icon info">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+      </div>
+      <h3>Especialidades</h3>
+      <p>Explore nuestras especialidades médicas disponibles</p>
+      <button routerLink="/specialties" class="btn btn-secondary">
+        Ver Especialidades
+      </button>
+    </div>
+  </div>
+
+  <!-- Upcoming Appointments Section -->
+  <div class="appointments-list" *ngIf="nextAppointments.length > 0">
+    <h3>Próximas Citas</h3>
+    <div class="appointment-cards">
+      <div class="appointment-card" *ngFor="let appointment of nextAppointments">
+        <div class="appointment-header">
+          <span class="appointment-date">
+            {{appointment.fecha_hora | date:'dd/MM/yyyy HH:mm'}}
+          </span>
+          <span class="appointment-status" 
+                [class.status-pending]="appointment.estado === AppointmentStatus.PENDIENTE"
+                [class.status-confirmed]="appointment.estado === AppointmentStatus.CONFIRMADA"
+                [class.status-completed]="appointment.estado === AppointmentStatus.COMPLETADA"
+                [class.status-cancelled]="appointment.estado === AppointmentStatus.CANCELADA">
+            {{appointment.estado}}
+          </span>
+        </div>
+        <div class="appointment-details">
+          <p><strong>Doctor:</strong> {{getDoctorName(appointment.medico_id)}}</p>
+          <p><strong>Motivo:</strong> {{appointment.motivo}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

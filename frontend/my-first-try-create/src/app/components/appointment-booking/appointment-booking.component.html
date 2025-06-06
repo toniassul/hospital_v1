@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="form-container">
+    <div class="header">
+      <h2>Nueva Cita</h2>
+      <button type="button" class="btn btn-text" routerLink="/">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <div *ngIf="success" class="alert alert-success">
+      Cita reservada exitosamente. Redirigiendo...
+    </div>
+    
+    <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="appointment-form">
+      <!-- Specialty Selection -->
+      <div class="form-group">
+        <label for="especialidad">Especialidad médica</label>
+        <select 
+          id="especialidad" 
+          formControlName="especialidad_id"
+          (change)="onSpecialtyChange()"
+          [class.is-invalid]="isFieldInvalid('especialidad_id')"
+          [attr.disabled]="loading">
+          <option value="">Seleccione una especialidad</option>
+          <option *ngFor="let specialty of specialties" [value]="specialty.id">
+            {{specialty.nombre}}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('especialidad_id')">
+          {{ getErrorMessage('especialidad_id') }}
+        </div>
+      </div>
+
+      <!-- Doctor Selection -->
+      <div class="form-group">
+        <label for="doctor">
+          Médico
+          <span *ngIf="loadingDoctors" class="spinner-border spinner-border-sm"></span>
+        </label>
+        <select 
+          id="doctor" 
+          formControlName="medico_id"
+          [class.is-invalid]="isFieldInvalid('medico_id')"
+          [attr.disabled]="loading || loadingDoctors || !appointmentForm.get('especialidad_id')?.value">
+          <option value="">Seleccione un médico</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">
+            Dr. {{doctor.nombre}} {{doctor.apellido}}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('medico_id')">
+          {{ getErrorMessage('medico_id') }}
+        </div>
+      </div>
+
+      <!-- Date Selection -->
+      <div class="form-group">
+        <label for="fecha">Fecha de la cita</label>
+        <input 
+          type="date" 
+          id="fecha"
+          formControlName="fecha_hora"
+          [min]="today"
+          [class.is-invalid]="isFieldInvalid('fecha_hora')"
+          [attr.disabled]="loading || !appointmentForm.get('medico_id')?.value">
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('fecha_hora')">
+          {{ getErrorMessage('fecha_hora') }}
+        </div>
+      </div>
+
+      <!-- Time Selection -->
+      <div class="form-group">
+        <label for="hora">
+          Hora disponible
+          <span *ngIf="loadingTimeSlots" class="spinner-border spinner-border-sm"></span>
+        </label>
+        <select
+          id="hora"
+          formControlName="hora"
+          [class.is-invalid]="isFieldInvalid('hora')"
+          [attr.disabled]="loading || loadingTimeSlots || !appointmentForm.get('fecha_hora')?.value">
+          <option value="">Seleccione un horario</option>
+          <option *ngFor="let time of availableTimes" [value]="time">
+            {{time}}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('hora')">
+          {{ getErrorMessage('hora') }}
+        </div>
+      </div>
+
+      <!-- Reason -->
+      <div class="form-group">
+        <label for="motivo">Motivo de la consulta</label>
+        <textarea 
+          id="motivo"
+          formControlName="motivo"
+          rows="4"
+          [class.is-invalid]="isFieldInvalid('motivo')"
+          [attr.disabled]="loading"
+          placeholder="Describa brevemente el motivo de su consulta">
+        </textarea>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('motivo')">
+          {{ getErrorMessage('motivo') }}
+        </div>
+        <small class="form-text text-muted">
+          Mínimo 10 caracteres, máximo 500
+        </small>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          routerLink="/"
+          [disabled]="loading">
+          Cancelar
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="loading || loadingDoctors || loadingTimeSlots">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          {{ loading ? 'Reservando cita...' : 'Reservar cita' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

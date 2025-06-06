@@ -1,0 +1,55 @@
+<!-- Navigation -->
+<nav class="navbar">  <div class="nav-container">
+    <h1>Sistema de Gestión Hospitalaria</h1>
+    <ul class="nav-links">
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/patients" routerLinkActive="active">Pacientes</a></li>
+      <li><a routerLink="/doctors" routerLinkActive="active">Médicos</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" (click)="toggleUserMenu($event)">
+          Usuario <span class="arrow">▼</span>
+        </a>
+        <ul class="dropdown-menu" [class.show]="isUserMenuOpen">
+          <li><a (click)="logout()">Cerrar Sesión</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Sistema de Gestión Hospitalaria</h3>
+        <p>Mejorando la atención médica a través de la tecnología</p>
+      </div>
+      <div class="footer-section">
+        <h4>Enlaces Rápidos</h4>
+        <ul>
+          <li><a routerLink="/home">Inicio</a></li>
+          <li><a routerLink="/patients">Pacientes</a></li>
+          <li><a routerLink="/doctors">Médicos</a></li>
+          <li><a routerLink="/specialties">Especialidades</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <ul>
+          <li>Email: contacto@hospital.com</li>
+          <li>Teléfono: (123) 456-7890</li>
+          <li>Dirección: Calle Principal #123</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Sistema de Gestión Hospitalaria. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Especialidades</h2>
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let specialty of specialties">
+        <td>{{specialty.nombre}}</td>
+        <td>{{specialty.descripcion}}</td>
+        <td class="actions">
+          <button class="btn-edit" (click)="editSpecialty(specialty)">Editar</button>
+          <button class="btn-delete" (click)="deleteSpecialty(specialty.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="specialties.length === 0">
+        <td colspan="3" class="no-data">No hay especialidades para mostrar</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedSpecialty" class="form-container">
+    <h3>{{isEditing ? 'Editar' : 'Nueva'}} Especialidad</h3>
+    <form (submit)="saveSpecialty()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input [(ngModel)]="selectedSpecialty.nombre" name="nombre" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea [(ngModel)]="selectedSpecialty.descripcion" name="descripcion" rows="3" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Guardar</button>
+        <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <button *ngIf="!selectedSpecialty" class="btn-new" (click)="startNewSpecialty()">
+    Nueva Especialidad
+  </button>
+</div>

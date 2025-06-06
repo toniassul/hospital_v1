@@ -1,0 +1,131 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-900) 100%);
+}
+
+.register-box {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.register-header h1 {
+  color: var(--primary-900);
+  margin-bottom: var(--space-xs);
+}
+
+.register-header p {
+  color: var(--neutral-600);
+}
+
+.register-form {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.form-group label {
+  color: var(--neutral-700);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: var(--space-md);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 2px var(--primary-100);
+  outline: none;
+}
+
+.input-group {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--neutral-500);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle:hover {
+  color: var(--primary-600);
+}
+
+.password-toggle .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.register-button {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-lg);
+  font-size: 1.1rem;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background-color: var(--error-color);
+  color: white;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+}
+
+.error-message .icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--neutral-200);
+  color: var(--neutral-600);
+}
+
+.login-link a {
+  color: var(--primary-600);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

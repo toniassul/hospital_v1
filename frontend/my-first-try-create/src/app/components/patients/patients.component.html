@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="header">
+    <h2>Gestión de Pacientes</h2>
+    <div class="filter-controls">
+      <label class="toggle-label">
+        <input type="checkbox" [(ngModel)]="showOnlyActive" (change)="toggleActiveFilter()">
+        Mostrar solo pacientes activos
+      </label>
+    </div>
+  </div>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of patients">
+        <td>{{patient.nombre}}</td>
+        <td>{{patient.apellido}}</td>
+        <td>{{patient.email}}</td>
+        <td>{{patient.telefono}}</td>
+        <td>
+          <span class="status-badge" [class.active]="patient.activo">
+            {{patient.activo ? 'Activo' : 'Inactivo'}}
+          </span>
+        </td>
+        <td class="actions">
+          <button class="btn-edit" (click)="editPatient(patient)">Editar</button>
+          <button class="btn-delete" (click)="deletePatient(patient.id!)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="patients.length === 0">
+        <td colspan="6" class="no-data">No hay pacientes para mostrar</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedPatient" class="form-container">
+    <h3>{{isEditing ? 'Editar' : 'Nuevo'}} Paciente</h3>
+    <form (submit)="savePatient()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input [(ngModel)]="selectedPatient.nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido:</label>
+          <input [(ngModel)]="selectedPatient.apellido" name="apellido" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email:</label>
+          <input [(ngModel)]="selectedPatient.email" name="email" type="email" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input [(ngModel)]="selectedPatient.telefono" name="telefono" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha de Nacimiento:</label>
+          <input [(ngModel)]="selectedPatient.fecha_nacimiento" name="fecha_nacimiento" type="date" required>
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input [(ngModel)]="selectedPatient.activo" name="activo" type="checkbox">
+            Paciente Activo
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Guardar</button>
+        <button type="button" class="btn-cancel" (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <button *ngIf="!selectedPatient" class="btn-new" (click)="startNewPatient()">
+    Nuevo Paciente
+  </button>
+</div>
